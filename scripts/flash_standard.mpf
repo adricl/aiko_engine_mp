@@ -1,0 +1,30 @@
+open ttyUSB0
+md configuration
+put configuration/main.py      configuration/main.py
+put configuration/led.py       configuration/led.py
+put configuration/lolibot.py   configuration/lolibot.py
+put configuration/mqtt.py      configuration/mqtt.py
+put configuration/net.py  configuration/net.py
+put configuration/oled.py      configuration/oled.py
+put configuration/services.py  configuration/services.py
+md lib
+md lib/aiko
+put lib/aiko/demonstration.py  lib/aiko/demonstration.py
+put lib/aiko/event.py          lib/aiko/event.py
+put lib/aiko/led.py            lib/aiko/led.py
+put lib/aiko/mqtt.py           lib/aiko/mqtt.py
+put lib/aiko/net.py            lib/aiko/net.py
+put lib/aiko/oled.py           lib/aiko/oled.py
+put lib/aiko/services.py       lib/aiko/services.py
+put lib/lolibot.py lib/lolibot.py
+put lib/mpu9250.py lib/mpu9250.py
+put lib/ssd1306.py lib/ssd1306.py
+put lib/threading.py lib/threading.py
+put lib/ms5611.py lib/ms5611.py
+put lib/sgp30.py lib/sgp30.py
+md lib/umqtt
+put lib/umqtt/simple.py lib/umqtt/simple.py
+put lib/umqtt/robust.py lib/umqtt/robust.py
+md applications
+put applications/logTemperature.py applications/logTemperature.py
+put main.py main.py

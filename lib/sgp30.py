@@ -18,12 +18,10 @@ class SGP30:
     def __init__(self, i2c, address=__SGP30_DEFAULT_I2C_ADDR):
         self._device = i2c
         self.address = address
-        self.serial = self._i2c_read_words_from_cmd(
-                [self.__SGP30_SERIAL_HIGH, self.__SGP30_SERIAL_LOW], 0.01, 3)
+        self.serial = self._i2c_read_words_from_cmd([self.__SGP30_SERIAL_HIGH, self.__SGP30_SERIAL_LOW], 0.01, 3)
 
         # get featuerset
-        featureset = self._i2c_read_words_from_cmd(
-            [self.__SGP30_CMD_HIGH, 0x2f], 0.01, 1)
+        featureset = self._i2c_read_words_from_cmd([self.__SGP30_CMD_HIGH, 0x2f], 0.01, 1)
 
         if featureset[0] != self.__SGP30_FEATURESET:
             raise RuntimeError('SGP30 Not detected')
@@ -93,22 +91,22 @@ class SGP30:
         name, command, signals, delay = profile
         # pylint: enable=unused-variable
 
-        print("\trunning profile: %s, command %s, %d, delay %0.02f" %
-           (name, ["0x%02x" % i for i in command], signals, delay))
+        #print("\trunning profile: %s, command %s, %d, delay %0.02f" %
+        #   (name, ["0x%02x" % i for i in command], signals, delay))
         return self._i2c_read_words_from_cmd(command, delay, signals)
 
 
     def _i2c_read_words_from_cmd(self, command, delay, reply_size):
         """Run an SGP command query, get a reply and CRC results if necessary"""
         #with self._device:
-        print("\tAddress: " +  str(self.address) + " Command: " + str(bytes(command)))
+        #print("\tAddress: " +  str(self.address) + " Command: " + str(bytes(command)))
         self._device.writeto(self.address, bytes(command))
         time.sleep(delay)
         if not reply_size:
             return None
         crc_result = bytearray(reply_size * (self.__SGP30_WORD_LEN +1))
-        self._device.readinto(crc_result)
-        print("\tRaw Read: ", crc_result)
+        self._device.readfrom_into(self.address, crc_result)
+        #print("\tRaw Read: ", crc_result)
         result = []
         for i in range(reply_size):
             word = [crc_result[3*i], crc_result[3*i+1]]
@@ -116,7 +114,7 @@ class SGP30:
             if self._generate_crc(word) != crc:
                 raise RuntimeError('CRC Error')
             result.append(word[0] << 8 | word[1])
-        print("\tOK Data: ", [hex(i) for i in result])
+        #print("\tOK Data: ", [hex(i) for i in result])
         return result
 
 
