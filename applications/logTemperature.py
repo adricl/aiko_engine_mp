@@ -21,8 +21,9 @@ def event_send_temp():
     payload["topHumidity"] = topTempHumid.humidity()
 
     oneWires.convert_temp()
-    utime.sleep_ms(750)
+    utime.sleep_ms(1000)
     payload["waterTemperature"] = oneWires.read_temp(oneWireDevices[0])
+    airMonitor.iaq_init()
     payload["co2eq"] = airMonitor.co2eq
     payload["tvoc"] = airMonitor.tvoc
     #print("co2eq = %d ppm \t tvoc = %d ppb" % (payload["co2eq"], payload["tvoc"]))
